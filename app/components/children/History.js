@@ -1,28 +1,30 @@
-// Include React
 var React = require("react");
 
-// This is the History component. It will be used to show a log of  recent searches.
 var History = React.createClass({
+
+  handleDelete: function(event) {
+    var x = event.target.value;
+    helpers.deleteHistory(this.props.results[x].snippet, this.props.results[x].web_url, this.props.results[x].pub_date).then(function() {
+  });
+  },
   // Here we describe this component's render method
   render: function() {
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          <h3 className="panel-title text-center">Search History</h3>
+          <h3 className="panel-title text-center">Saved Articles</h3>
         </div>
         <div className="panel-body text-center">
-
-          {/* Here we use a map function to loop through an array in JSX */}
-          { this.props.history && 
+          { this.props.history &&
             this.props.history.map(function(search, i) {
               return (
-                <div> 
+                <div>
                   <p key={i}><a href={search.url} target="_blank">{search.topic}</a> - {search.date}</p>
-                  <hr className="line"/> 
+                  <button className="btn-default deleteButton" value={i} onClick={this.handleDelete}>Delete</button>
                 </div>
               );
             })}
-          
+
         </div>
       </div>
     );
